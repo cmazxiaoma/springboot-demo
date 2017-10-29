@@ -1,0 +1,11 @@
+AOP是一种编程范式，与语言无关，是一种程序设计思想。
+面向切面 Aspect Oriented Programming
+面向对象 Object Oriented Programming
+面向过程 Procedure Oriented Programming
+
+AOP将通用逻辑从业务逻辑中分离
+模拟一个网络请求打log的功能
+
+收到HttpRequest请求 -> 记录请求 -> 处理网络请求 -> 生成HttpResponse -> 记录回复
+
+收到数据库操作请求 -> 记录请求 -> 增删查改 -> 生成处理结果 -> 记录回复

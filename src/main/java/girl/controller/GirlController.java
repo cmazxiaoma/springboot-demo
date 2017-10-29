@@ -1,7 +1,15 @@
-package girl;
+package girl.controller;
 
+import girl.exception.GirlException;
+import girl.repository.GirlRepository;
+import girl.service.GirlService;
+import girl.model.Girl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -25,20 +33,18 @@ public class GirlController {
         return girlRepository.findAll();
     }
 
+
     /**
      * Adds girl
-     * @param name
-     * @param cupSize
-     * @param age
+     * @param girl
      * @return girl added
      */
     @PostMapping(value = "/girls")
-    public Girl girlAdd(@RequestParam("name") String name, @RequestParam("cupsize") String cupSize
-            , @RequestParam("age") Integer age) {
-        Girl girl = new Girl();
-        girl.setAge(age);
-        girl.setName(name);
-        girl.setCupSize(cupSize);
+    public Girl girlAdd(@Valid  Girl girl, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            System.out.println(bindingResult.getFieldError().getDefaultMessage());
+            return null;
+        }
         return girlRepository.save(girl);
     }
 
@@ -116,5 +122,10 @@ public class GirlController {
     @GetMapping(value = "/transaction")
     public void transactionTest() {
         girlService.insertTwo();
+    }
+
+    @GetMapping(value = "/girls/getAge/{id}")
+    public void getAge(@PathVariable("id") Integer id) throws GirlException {
+        girlService.getAge(id);
     }
 }

@@ -1,5 +1,6 @@
-package girl;
+package girl.repository;
 
+import girl.model.Girl;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
