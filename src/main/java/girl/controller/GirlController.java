@@ -1,9 +1,14 @@
 package girl.controller;
 
+import girl.enums.ResultCode;
 import girl.exception.GirlException;
+import girl.model.Result;
 import girl.repository.GirlRepository;
 import girl.service.GirlService;
 import girl.model.Girl;
+import girl.utils.ResultGenerator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +29,8 @@ public class GirlController {
     @Autowired
     private GirlService girlService;
 
+    private static final Logger log = LoggerFactory.getLogger(GirlController.class);
+
     /**
      * Queries all girls.
      * @return girls List queryed
@@ -40,12 +47,24 @@ public class GirlController {
      * @return girl added
      */
     @PostMapping(value = "/girls")
-    public Girl girlAdd(@Valid  Girl girl, BindingResult bindingResult) {
+    public Result girlAdd(@Valid  Girl girl, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             System.out.println(bindingResult.getFieldError().getDefaultMessage());
             return null;
         }
-        return girlRepository.save(girl);
+
+        int hash = girl.hashCode();
+        girl.setHash(hash);
+        log.info("hash=" + hash);
+
+        Girl repeatGirl = girlRepository.findByHash(hash);
+
+        if (repeatGirl != null) {
+            return ResultGenerator.error(ResultCode.REPEATABLE_DATA);
+        }
+
+        girlRepository.save(girl);
+        return ResultGenerator.success();
     }
 
     /**

@@ -13,7 +13,8 @@ public enum  ResultCode {
     LOLITA(1, "lolita"),
     ROYAL_SISTER(2, "royal sister"),
     YOUNG_WOMAN(3, "young woman"),
-    AUNT(4, "aunt");
+    AUNT(4, "aunt"),
+    REPEATABLE_DATA(5, "repeatable data");
 
 
     private Integer code;

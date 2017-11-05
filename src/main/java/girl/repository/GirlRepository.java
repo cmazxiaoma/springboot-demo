@@ -16,4 +16,6 @@ public interface GirlRepository extends JpaRepository<Girl, Integer> {
     public List<Girl> findByCupSize(String cupSize);
 
     public List<Girl> findByName(String name);
+
+    public Girl findByHash(int hash);
 }

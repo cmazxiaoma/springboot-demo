@@ -1,8 +1,7 @@
 package girl.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.google.gson.Gson;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,9 +13,9 @@ import javax.validation.constraints.Min;
  * everyday is mayday.
  */
 @Entity
-@Data
+@Setter
+@Getter
 @NoArgsConstructor
-@AllArgsConstructor
 public class Girl {
 
     @Id
@@ -30,14 +29,41 @@ public class Girl {
 
     private String cupSize;
 
+    private Integer hash;
+
+    public Girl(String name, Integer age, String cupSize) {
+        this.name = name;
+        this.age = age;
+        this.cupSize = cupSize;
+        this.hash = this.hashCode();
+    }
 
     @Override
     public String toString() {
-        return "Girl{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", age=" + age +
-                ", cupSize='" + cupSize + '\'' +
-                '}';
+        Gson gson = new Gson();
+        return gson.toJson(this);
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Girl girl = (Girl) o;
+
+        if (!id.equals(girl.id)) return false;
+        if (!name.equals(girl.name)) return false;
+        if (!age.equals(girl.age)) return false;
+        if (!cupSize.equals(girl.cupSize)) return false;
+        return hash.equals(girl.hash);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name.hashCode();
+        result = 31 * result + age.hashCode();
+        result = 31 * result + cupSize.hashCode();
+        return result;
     }
 }

@@ -20,10 +20,10 @@ public class GirlService {
 
     @Transactional
     public void insertTwo() {
-        Girl girlA = new Girl(0, "garrett-test-1", 18, "Z");
+        Girl girlA = new Girl("garrett-test-1", 18, "Z");
         girlRepository.save(girlA);
 
-        Girl girlB = new Girl(0, "mayday-test-1", 21, "ABCDEFG");
+        Girl girlB = new Girl("mayday-test-1", 21, "ABCDEFG");
         girlRepository.save(girlB);
     }
 
